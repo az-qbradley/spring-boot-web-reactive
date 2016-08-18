@@ -1,0 +1,4 @@
+SendBufferSize: 512000
+Environment: paypal
+PoolName: qbd1serv
+SiteViewAddr: mscal.qa.paypal.com

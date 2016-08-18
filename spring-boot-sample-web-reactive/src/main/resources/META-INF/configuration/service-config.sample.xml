@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="http://telemetry.qa.paypal.com/build-service/content/assembler/MetadataRepo/raptor-2.0/production/service-config-1.0.0.xsd">
+    <target-platform name="Linux">
+        <classOfService name="Production">
+            <wrapper> 
+                 <!-- Your JSW override configurations go here. Below is an example. -->
+                 <!--
+                <max-heap-size>2253</max-heap-size>
+                <min-heap-size>2253</min-heap-size>
+                <debug-mode>false</debug-mode>
+                <ping-initial-timeout>400</ping-initial-timeout>
+                <additional-command-line-arguments>
+                    <jvm-pass-through-argument>-Xcompressedrefs</jvm-pass-through-argument>
+                    <jvm-pass-through-argument>-Xss512k</jvm-pass-through-argument>
+                </additional-command-line-arguments>
+                -->
+            </wrapper>
+            <server-runtime>
+                <!-- Obsolete 'server-runtime' Section must remain for xsd compliance -->
+            </server-runtime>
+        </classOfService>
+        <classOfService name="Sandbox">
+            <wrapper>
+                 <!-- Your JSW override configurations go here. -->
+            </wrapper>
+            <server-runtime>
+                <!-- Obsolete 'server-runtime' Section must remain for xsd compliance -->
+            </server-runtime>
+        </classOfService>
+        <classOfService name="QA">
+            <wrapper> 
+                 <!-- Your JSW override configurations go here. -->
+            </wrapper>
+            <server-runtime>
+                <!-- Obsolete 'server-runtime' Section must remain for xsd compliance -->
+            </server-runtime>
+        </classOfService>
+    </target-platform>
+</service-config>

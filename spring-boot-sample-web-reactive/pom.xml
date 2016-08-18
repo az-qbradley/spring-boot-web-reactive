@@ -1,120 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot.experimental</groupId>
-		<artifactId>spring-boot-web-reactive-build</artifactId>
-		<version>0.1.0.BUILD-SNAPSHOT</version>
-		<relativePath>../spring-boot-web-reactive-build</relativePath>
+		<groupId>com.ebay.raptor</groupId>
+		<artifactId>RaptorPlatform</artifactId>
+		<version>3.2.0-SNAPSHOT</version>
+		<relativePath></relativePath>
 	</parent>
 	<artifactId>spring-boot-sample-web-reactive</artifactId>
+	<version>0.1.0.BUILD-SNAPSHOT</version>
 	<name>Sample project for Spring Boot Web Reactive</name>
 	<description>Spring Boot Web Reactive Sample</description>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot.experimental</groupId>
+				<artifactId>spring-boot-web-reactive-build</artifactId>
+				<version>0.1.0.BUILD-SNAPSHOT</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>5.0.0.M1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>5.0.0.M1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>5.0.0.M1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>5.0.0.M1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>5.0.0.M1</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>1.1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>io.reactivex</groupId>
+				<artifactId>rxjava</artifactId>
+				<version>1.1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.typesafe.akka</groupId>
+				<artifactId>akka-actor_2.11</artifactId>
+				<version>2.4.9</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
+	<profiles>
+		<profile>
+			<id>tomcat</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot.experimental</groupId>
+					<artifactId>spring-boot-starter-web-reactive</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
-    <profiles>
-        <profile>
-            <id>tomcat</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot.experimental</groupId>
-                    <artifactId>spring-boot-starter-web-reactive</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
+		<profile>
+			<id>reactor-netty</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot.experimental</groupId>
+					<artifactId>spring-boot-starter-web-reactive</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-tomcat</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>io.projectreactor.ipc</groupId>
+					<artifactId>reactor-netty</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
-        <profile>
-            <id>reactor-netty</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot.experimental</groupId>
-                    <artifactId>spring-boot-starter-web-reactive</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>io.projectreactor.ipc</groupId>
-                    <artifactId>reactor-netty</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
+		<profile>
+			<id>jetty</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot.experimental</groupId>
+					<artifactId>spring-boot-starter-web-reactive</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-tomcat</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-server</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-servlet</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
-        <profile>
-            <id>jetty</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot.experimental</groupId>
-                    <artifactId>spring-boot-starter-web-reactive</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-server</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-servlet</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
+		<profile>
+			<id>rxnetty</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot.experimental</groupId>
+					<artifactId>spring-boot-starter-web-reactive</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-tomcat</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>io.reactivex</groupId>
+					<artifactId>rxnetty-common</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>io.reactivex</groupId>
+					<artifactId>rxnetty-http</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 
-        <profile>
-            <id>rxnetty</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot.experimental</groupId>
-                    <artifactId>spring-boot-starter-web-reactive</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>io.reactivex</groupId>
-                    <artifactId>rxnetty-common</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.reactivex</groupId>
-                    <artifactId>rxnetty-http</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <id>undertow</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot.experimental</groupId>
-                    <artifactId>spring-boot-starter-web-reactive</artifactId>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
-                    <groupId>io.undertow</groupId>
-                    <artifactId>undertow-core</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+		<profile>
+			<id>undertow</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot.experimental</groupId>
+					<artifactId>spring-boot-starter-web-reactive</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-tomcat</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>io.undertow</groupId>
+					<artifactId>undertow-core</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>io.undertow</groupId>
+					<artifactId>undertow-servlet</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 
 	<dependencies>
 
@@ -132,8 +192,120 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.reactivex</groupId>
+			<artifactId>rxjava</artifactId>
+		</dependency>
+		<!-- These are your PayPal specific framework dependencies -->
+		<dependency>
+			<groupId>com.paypal.raptor.springboot</groupId>
+			<artifactId>spring-boot-starter-raptor-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ebayinc.platform.raptor</groupId>
+			<artifactId>config-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ebay.raptor.core</groupId>
+			<artifactId>config-resources-paypal</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ebay.squbs</groupId>
+			<artifactId>rocksqubs-kafka_2.11</artifactId>
+			<version>0.8.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.paypal.raptor.springboot</groupId>
+			<artifactId>spring-boot-starter-raptor-akka</artifactId>
+			<version>1.0.6-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.reactivex</groupId>
+			<artifactId>rxjava-reactive-streams</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ebayinc.platform.services</groupId>
+			<artifactId>rest-client-profile-paypal</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.paypal.raptor.springboot</groupId>
+			<artifactId>spring-boot-starter-raptor-rxnetty</artifactId>
+		</dependency>
+		<!-- dependency>
+			<groupId>com.paypal.raptor.springboot</groupId>
+			<artifactId>spring-boot-starter-raptor-rest</artifactId>
+		</dependency-->
 	</dependencies>
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.paypal.raptor.plugins</groupId>
+				<artifactId>connectivity-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.ebay.raptor.build</groupId>
+				<artifactId>assembler-maven-plugin</artifactId>
+				<configuration>
+					<!-- Altus will have a dropdown to select which deploymentType they 
+						will use as a paramter to the archetype command. -->
+					<deploymentType>mid-tier</deploymentType>
+					<appPackages>
+						<cronusPackage>
+							<name>qbd1serv</name>
+							<version>${project.version}_{timestamp}</version>
+							<sources>
+								<source>${basedir}/target/app</source>
+							</sources>
+						</cronusPackage>
+					</appPackages>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.ebay.raptor.build</groupId>
+				<artifactId>metadata-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+
+	</build>
 
 </project>

@@ -1,0 +1,20 @@
+<data-sources>
+    <jdbc-driver action="update" name="OccJDBCDriver">
+        <data-source name="_qtoc">
+            <minimum-pool-size>1</minimum-pool-size>
+            <maximum-pool-size>10</maximum-pool-size>
+            <connection-timeout>2</connection-timeout>
+            <idle-timeout>60000</idle-timeout>
+            <orphan-timeout>30</orphan-timeout>
+            <statement-cache-size>1000</statement-cache-size>
+            <disable-auto-connectioncleanup>false</disable-auto-connectioncleanup>
+            <config-properties>
+                <property name="URL" value="jdbc:occ:1:localhost:10173"/>
+    	        <property name="user" value="not_used_req_by_dal"/>
+                <property name="password" value="not_used_req_by_dal"/>
+                <property name="connectionProperties" value="occ.client_conn_pooling=true;"/>
+             </config-properties>
+        </data-source>
+ 
+    </jdbc-driver>
+</data-sources>

@@ -21,9 +21,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-
 import org.springframework.http.server.reactive.ServletHttpHandlerAdapter;
 import org.springframework.util.Assert;
+
+import com.ebay.raptor.configweb.console.ConsoleFrontController;
+import com.ebay.raptor.configweb.log.RaptorContentReader;
 
 public class TomcatEmbeddedReactiveHttpServer extends AbstractEmbeddedReactiveHttpServer
 		implements EmbeddedReactiveHttpServer {
@@ -49,7 +51,17 @@ public class TomcatEmbeddedReactiveHttpServer extends AbstractEmbeddedReactiveHt
 		File base = new File(System.getProperty("java.io.tmpdir"));
 		Context rootContext = tomcatServer.addContext("", base.getAbsolutePath());
 		Tomcat.addServlet(rootContext, "httpHandlerServlet", servlet);
-		rootContext.addServletMapping("/", "httpHandlerServlet");
+		rootContext.addServletMapping("/home/*", "httpHandlerServlet");
+		Tomcat.addServlet(rootContext, "ConsoleFrontController", new ConsoleFrontController());
+		rootContext.addServletMapping("/admin/v3console/*", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/js/*", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/css/*", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/images/*", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/hystrix-dashboard.html", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/monitor/*", "ConsoleFrontController");
+		rootContext.addServletMapping("/admin/components/*", "ConsoleFrontController");
+		Tomcat.addServlet(rootContext, "RaptorContentReader", new RaptorContentReader());
+		rootContext.addServletMapping("/raptorlog/*", "RaptorContentReader");
 	}
 
 	@Override
@@ -59,8 +71,7 @@ public class TomcatEmbeddedReactiveHttpServer extends AbstractEmbeddedReactiveHt
 				this.running = true;
 				this.tomcatServer.start();
 				startDaemonAwaitThread();
-			}
-			catch (LifecycleException ex) {
+			} catch (LifecycleException ex) {
 				throw new IllegalStateException(ex);
 			}
 		}
@@ -73,8 +84,7 @@ public class TomcatEmbeddedReactiveHttpServer extends AbstractEmbeddedReactiveHt
 				this.running = false;
 				this.tomcatServer.stop();
 				this.tomcatServer.destroy();
-			}
-			catch (LifecycleException ex) {
+			} catch (LifecycleException ex) {
 				throw new IllegalStateException(ex);
 			}
 		}

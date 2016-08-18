@@ -1,0 +1,55 @@
+{
+    "name":"${project.artifactId}",
+    "description":"${project.description}",
+    "version":
+    {   "buildId":"${BUILD_ID}",
+        "appArtifactId":"${project.artifactId}",
+        "appGroupId":"${project.groupId}",
+        "appVersion":"${project.version}",
+        "frameworkName":"RaptorServices",
+        "frameworkVersion":"${RAPTOR_VERSION}",
+        "jdkBuildVersion":"${java.version}"
+    },
+    "info":
+    {   "appName":"${APP_NAME}",
+        "appContextRoot":"/",
+        "ecvURL":"http://localhost:8080/admin/v3console/ViewConfigCategoryXml?id=ebay.kernel.ServeTraffic&forceXml=true",
+        "appLogs":"${APPLICATION_LOGS}"
+     },
+    "fingerprint":
+    {
+        "expr":"fileexists('/opt/tivoli/automate/enable/APPNAME/${APP_NAME}')"
+    },
+    "scm": {
+        "gitUrl": "${GIT_URL}",
+        "gitBranch": "${GIT_BRANCH}",
+        "gitCommit": "${GIT_COMMIT_ID}"
+    },
+    "ports":
+    [
+        {"BindPort":"8443"}        
+    ],
+    "recipe":
+    {
+        "jmonitor":
+        {   "JMXAgentConfig":
+            [
+                {   "AppName":"${APP_NAME}",
+                    "AppPort":"8443",
+                    "ConnectTimeout":"3000",
+                    "HeapMemoryCheckThreshold":"95",
+                    "NonHeapMemoryCheckThreshold":"95",
+                    "BusyThreadCheckThreshold":"80"
+                }
+            ]
+        }
+    },
+    "processes":
+    [
+        {
+            "name":"${JSW_TARGET_PATH}/bin/./wrapper",
+            "count":"==1",
+            "type":"DoNotRemove"
+        }
+    ]
+}
